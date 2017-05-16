@@ -127,7 +127,13 @@ def prepare_resnet_v1_model():
     dst_file = "Examples/Image/PretrainedModels/ResNet_18.model"
     
     _data_copier([src_file], [dst_file])
-    
+
+def prepare_alexnet_v0_model():
+    src_file = "PreTrainedModels/AlexNet/v0/AlexNet.model"
+    dst_file = "Examples/Image/PretrainedModels/AlexNet.model"
+
+    _data_copier([src_file], [dst_file])
+
 # Read the flower and animal data set file
 def prepare_flower_data():
     src_files = ["Image/Flowers/102flowers.tgz", 
