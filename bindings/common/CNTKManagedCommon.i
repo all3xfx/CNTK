@@ -494,6 +494,7 @@ SWIG_STD_VECTOR_ENHANCED(CNTK::DeviceDescriptor)
 %rename (_IsParameter) CNTK::Variable::IsParameter;
 %rename (_IsConstant) CNTK::Variable::IsConstant;
 %rename (_IsPlaceholder) CNTK::Variable::IsPlaceholder;
+%rename (_NeedsGradient) CNTK::Variable::NeedsGradient;
 %rename (GetOwner) CNTK::Variable::Owner;
 
 // class NDShape
@@ -503,6 +504,7 @@ SWIG_STD_VECTOR_ENHANCED(CNTK::DeviceDescriptor)
 %rename (_IsUnknown) CNTK::NDShape::IsUnknown;
 %rename (_HasInferredDimension) CNTK::NDShape::HasInferredDimension;
 %rename (_HasFreeDimension) CNTK::NDShape::HasFreeDimension;
+%rename (_HasUnboundDimension) CNTK::NDShape::HasUnboundDimension;
 
 %ignore CNTK::NDShape::NDShape(const std::initializer_list<size_t>& dimensions);
 %ignore CNTK::NDShape::InferredDimension;
@@ -514,6 +516,7 @@ SWIG_STD_VECTOR_ENHANCED(CNTK::DeviceDescriptor)
         return (*self)[axisId];
     }
 }
+%make_private(CNTK::NDShape::GetDimensionSize);
 
 // class NDMask
 // Todo: add correct typemap as they might be useful in future.
@@ -549,6 +552,11 @@ SWIG_STD_VECTOR_ENHANCED(CNTK::DeviceDescriptor)
 %make_private(CNTK::Value::CreateSequenceDouble);
 %make_private(CNTK::Value::CreateOneHotFloat);
 %make_private(CNTK::Value::CreateOneHotDouble);
+%make_private(CNTK::Value::CopyVariableValueTo);
+%make_private(CNTK::Value::CopyVariableValueToFloat);
+%make_private(CNTK::Value::CopyVariableValueToDouble);
+%make_private(CNTK::Value::Create);
+%rename_and_make_private(CNTK::Value, Alias);
 #endif
 
 %include "CNTKValueExtend.i"
@@ -557,6 +565,10 @@ SWIG_STD_VECTOR_ENHANCED(CNTK::DeviceDescriptor)
 %ignore CNTK::NDArrayView::NDArrayView(::CNTK::DataType dataType, const NDShape& viewShape, void* dataBuffer, size_t bufferSizeInBytes, const DeviceDescriptor& device, bool readOnly = false);
 %ignore CNTK::NDArrayView::NDArrayView(::CNTK::DataType dataType, const NDShape& viewShape, const void* dataBuffer, size_t bufferSizeInBytes, const DeviceDescriptor& device);
 %ignore CNTK::NDArrayView::NDArrayView(double value, DataType dataType = DataType::Float, const NDShape& viewShape = { 1 }, const DeviceDescriptor& device = DeviceDescriptor::UseDefaultDevice(), bool readOnly = false);
+
+#ifdef SWIGCSHARP
+%rename_and_make_private(CNTK::NDArrayView, Alias);
+#endif
 
 %extend CNTK::NDArrayView {
     NDArrayView(const NDShape& viewShape, float *dataBuffer, size_t numBufferElements, const DeviceDescriptor& device, bool readOnly = false)
